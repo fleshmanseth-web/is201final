@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Forever Love</title>
+  <link rel="stylesheet" href="trueScratch.css" />
+  <style>
+    .tableau-section {
+      width: 75%;
+      margin: 0 auto 3rem;
+    }
+
+    .tableau-section h2 {
+      margin-top: 0;
+    }
+
+    .photos-section {
+      width: 100%;
+      max-width: 100vw;
+      margin: 0 auto 3rem;
+    }
+
+    .photos-section h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .photos-carousel {
+      width: 65vw;
+      max-width: 65vw;
+      margin: 1.25rem auto 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .photos-carousel-viewport {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 24px;
+      background: transparent;
+      flex: 0 0 auto;
+    }
+
+    .photos-carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+
+    .photo-slide {
+      position: relative;
+      min-width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      background: transparent;
+    }
+
+    .photo-slide.loading::after {
+      content: "loading...";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 550;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .photo-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    .carousel-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 107, 129, 0.35);
+      background: #fff7fb;
+      color: #2d2d3a;
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .carousel-dots {
+      width: 65vw;
+      max-width: 65vw;
+      margin: 0.75rem auto 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 107, 129, 0.35);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background: #ff6b81;
+    }
+
+    .video-section {
+      width: 100%;
+      max-width: 100vw;
+      margin: 0 auto 3rem;
+    }
+
+    .video-section h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .video-embed-wrap {
+      position: relative;
+      width: 80vw;
+      max-width: 100%;
+      margin: 1.25rem auto 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 107, 129, 0.2);
+      border-radius: 24px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .video-embed-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .tableau-note {
+      text-align: center;
+      margin: 0.35rem auto 0.75rem;
+      font-size: clamp(16px, 2.1vw, 22px);
+      line-height: 1.45;
+      font-weight: 380;
+      max-width: 70ch;
+    }
+
+    .header-inner {
+      position: relative;
+    }
+
+    .nav-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      width: 42px;
+      border: 0.5px solid #cfcfcf;
+      border-radius: 8px;
+      background: #f3f3f3;
+      cursor: pointer;
+    }
+
+    .nav-toggle-lines {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 16px;
+      height: 14px;
+    }
+
+    .nav-toggle-lines span {
+      width: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: #222;
+      display: block;
+    }
+
+    .header-inner.nav-collapsed .nav-toggle {
+      display: inline-flex;
+    }
+
+    .header-inner.nav-collapsed .main-nav {
+      display: none;
+    }
+
+    .header-inner.nav-collapsed.menu-open .main-nav {
+      display: flex;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 6px;
+      flex-direction: column;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 8px;
+      background: #e9e9e9;
+      border: 0.5px solid #dadada;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      z-index: 25;
+      width: min(220px, calc(100vw - 32px));
+      pointer-events: auto;
+    }
+
+    .header-inner.nav-collapsed.menu-open .main-nav a {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .site-footer {
+      margin-top: 1.5rem;
+      padding: 6px;
+      border-radius: 8px;
+      background: #e9e9e9;
+      border: 0.5px solid #dadada;
+      text-align: center;
+    }
+
+    .site-footer a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 8px;
+      background: #f3f3f3;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .site-footer a:hover {
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand header-pill" href="#" aria-label="Home">Dear Jess</a>
+        <button id="navToggle" class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primaryNav" aria-expanded="false">
+          <span class="nav-toggle-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <nav id="primaryNav" class="main-nav" aria-label="Primary">
+          <a href="index.html">Main Page</a>
+          <a href="#photosSection">Photos</a>
+          <a href="#letter">Letter</a>
+          <a href="wouldYouRather.html">Would You Rather</a>
+          <a href="#romanticFilms">Tooth Fairy</a>
+          <a href="#videoSection">Video</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="layout-hero-wrap">
+        <section class="hero">
+          <h1>To the person I love the most, the sweetest companion, and the true FFOAT (Finest Fiancée Of All Time)</h1>
+          <p class="lead">
+            This little page is my digital love letter to you. Just a small corner of the internet that says the one thing I never want you to forget:
+            I choose you, every day, in every season.
+          </p>
+        </section>
+      </div>
+
+      <div class="layout-photos-wrap">
+        <section id="photosSection" class="photos-section">
+          <h2>“We didn’t realize we were making memories, we just knew we were having fun.” - Winnie The Pooh</h2>
+          <div class="photos-carousel" aria-label="Photo carousel">
+          <button class="carousel-btn prev" type="button" aria-label="Previous photo">&#10094;</button>
+          <div class="photos-carousel-viewport">
+            <div class="photos-carousel-track" id="photosCarouselTrack">
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5656.JPG" alt="Photo 1" loading="lazy" data-offset-x="0" data-offset-y="0" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5669.jpg" alt="Photo 2" loading="lazy" data-offset-x="0" data-offset-y="0" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5771.jpg" alt="Photo 3" loading="lazy" data-offset-x="50" data-offset-y="0" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5781.jpg" alt="Photo 4" loading="lazy" data-offset-x="0" data-offset-y="0" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5813.jpg" alt="Photo 6" loading="lazy" data-offset-x="0" data-offset-y="60" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_5814.JPG" alt="Photo 7" loading="lazy" data-offset-x="0" data-offset-y="70" /></figure>
+              <figure class="photo-slide"><img src="assets/Photos-3-001/IMG_6266.jpg" alt="Photo 8" loading="lazy" data-offset-x="0" data-offset-y="0" /></figure>
+            </div>
+          </div>
+          <button class="carousel-btn next" type="button" aria-label="Next photo">&#10095;</button>
+          </div>
+          <div class="carousel-dots" id="photosCarouselDots" aria-label="Photo position"></div>
+        </section>
+      </div>
+
+      <div class="layout-letter-wrap">
+        <section id="letter">
+          <h2 style="text-align: center;">Love Letter *Mwah*</h2>
+          <ol class="letter-ordered">
+          <li>
+            <h2>Thank you for your kindness, your laughter, and your steady heart.</h2>
+            <ul class="letter-unordered">
+              <li>You love in the quiet ways that matter most.</li>
+              <li>I feel your love in the check-ins, in the patience, in the way you always make space for my dreams.</li>
+              <li>You have made me feel seen, safe, and deeply loved.</li>
+            </ul>
+          </li>
+          <li>
+            <h2>I admire the way you serve God and others!</h2>
+            <ul class="letter-unordered">
+              <li>You are such an amazing example of discipleship and Christlike love.</li>
+              <li>I want to be more like you in that way, and I am so excited to learn from your example :)</li>
+            </ul>
+          </li>
+          <li id="promises">
+            <h2>I promise to never give up.</h2>
+            <ul class="letter-unordered">
+              <li>We are going to have ups and downs, but I promise to stick by your side through to the end.</li>
+              <li>There's no one I'd rather be beside through the good times or the bad than you!</li>
+              <li>I love you, 2, 3, and 4-ever :)</li>
+            </ul>
+          </li>
+          </ol>
+        </section>
+      </div>
+
+      <section id="romanticFilms" class="tableau-section" style="width: 100%; max-width: 100vw; margin: 2.5rem auto 3rem;">
+        <h2 style="text-align: center;">Tooth Fairy Information</h2>
+        <p class="tableau-note">As you know, I just got my wisdom teeth removed, and most of those dates aren't free, so...</p>
+        <div class='tableauPlaceholder' id='viz1776453238431' style='position: relative; width: 65vw; max-width: 100%; margin: 1.25rem auto 0; overflow: hidden; border: 1px solid rgba(255, 107, 129, 0.2); border-radius: 24px;'>
+          <noscript><a href='#'><img alt='Tooth Fairy Overview ' src='https://public.tableau.com/static/images/Th/TheToothFairyPoll/ToothFairyOverview/1_rss.png' style='border: none' /></a></noscript>
+          <object class='tableauViz' style='display:none; width: 1294px; height: 1112px; transform-origin: top left;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='TheToothFairyPoll&#47;ToothFairyOverview' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/Th/TheToothFairyPoll/ToothFairyOverview/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+          </object>
+        </div>
+        <script type='text/javascript'>
+          var divElement = document.getElementById('viz1776453238431');
+          var vizElement = divElement.getElementsByTagName('object')[0];
+          var baseWidth = 1294;
+          var baseHeight = 1112;
+
+          // Keep the entire viz visible while scaling with page width.
+          function resizeTableauViz() {
+            var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+            var containerWidth = Math.floor(vw * 0.65);
+            var scale = containerWidth / baseWidth;
+            var containerHeight = Math.floor(baseHeight * scale);
+
+            divElement.style.width = containerWidth + 'px';
+            divElement.style.height = containerHeight + 'px';
+
+            // Apply to the original embed object.
+            vizElement.style.width = baseWidth + 'px';
+            vizElement.style.height = baseHeight + 'px';
+            vizElement.style.transformOrigin = 'top left';
+            vizElement.style.transform = 'scale(' + scale + ')';
+
+            // Apply to Tableau's rendered iframe (the element users actually see).
+            var iframe = divElement.querySelector('iframe');
+            if (iframe) {
+              iframe.style.width = baseWidth + 'px';
+              iframe.style.height = baseHeight + 'px';
+              iframe.style.transformOrigin = 'top left';
+              iframe.style.transform = 'scale(' + scale + ')';
+              iframe.style.border = 'none';
+            }
+
+            // Ensure Tableau's default inline sizing is immediately corrected.
+            divElement.style.minHeight = containerHeight + 'px';
+          }
+
+          resizeTableauViz();
+          window.addEventListener('resize', resizeTableauViz);
+
+          // Tableau often writes dimensions asynchronously after script load.
+          // Re-run sizing through the first render phase to prevent oversized first paint.
+          [50, 150, 300, 600, 1000].forEach(function(delay) {
+            setTimeout(resizeTableauViz, delay);
+          });
+
+          var observer = new MutationObserver(function() {
+            resizeTableauViz();
+            var iframe = divElement.querySelector('iframe');
+            if (iframe && !iframe.dataset.fitBound) {
+              iframe.dataset.fitBound = '1';
+              iframe.addEventListener('load', resizeTableauViz);
+            }
+          });
+          observer.observe(divElement, { childList: true, subtree: true, attributes: true });
+
+          var scriptElement = document.createElement('script');
+          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+          scriptElement.onload = function() {
+            resizeTableauViz();
+            [150, 350, 700].forEach(function(delay) {
+              setTimeout(resizeTableauViz, delay);
+            });
+          };
+          vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        </script>
+      </section>
+
+      <section id="videoSection" class="video-section">
+        <h2>A Cute Video For You My Love :)</h2>
+        <div class="video-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/sVW-K3jepf0?si=CBLMiZkLG2HnOAbu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" aria-label="Page footer">
+      <a href="#top">Scroll to top</a>
+    </footer>
+  </div>
+  <script>
+    (function() {
+      var headerInner = document.querySelector('.header-inner');
+      var nav = document.getElementById('primaryNav');
+      var toggle = document.getElementById('navToggle');
+
+      if (!headerInner || !nav || !toggle) {
+        return;
+      }
+
+      function updateNavMode() {
+        var keepOpen = headerInner.classList.contains('menu-open');
+        headerInner.classList.remove('nav-collapsed', 'menu-open');
+        toggle.setAttribute('aria-expanded', 'false');
+
+        var shouldCollapse = headerInner.scrollWidth > headerInner.clientWidth;
+
+        if (shouldCollapse) {
+          headerInner.classList.add('nav-collapsed');
+          if (keepOpen) {
+            headerInner.classList.add('menu-open');
+            toggle.setAttribute('aria-expanded', 'true');
+          }
+        }
+      }
+
+      toggle.addEventListener('click', function() {
+        if (!headerInner.classList.contains('nav-collapsed')) {
+          return;
+        }
+
+        var isOpen = headerInner.classList.toggle('menu-open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      nav.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          headerInner.classList.remove('menu-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', function(event) {
+        if (!headerInner.classList.contains('menu-open')) {
+          return;
+        }
+
+        if (!headerInner.contains(event.target)) {
+          headerInner.classList.remove('menu-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      window.addEventListener('resize', updateNavMode);
+      window.addEventListener('load', updateNavMode);
+
+      if (window.ResizeObserver) {
+        var observer = new ResizeObserver(updateNavMode);
+        observer.observe(headerInner);
+      }
+
+      updateNavMode();
+      setTimeout(updateNavMode, 120);
+      setTimeout(updateNavMode, 350);
+    })();
+
+    (function() {
+      var carousel = document.querySelector('.photos-carousel');
+      if (!carousel) {
+        return;
+      }
+
+      var track = carousel.querySelector('.photos-carousel-track');
+      var slides = Array.prototype.slice.call(track.children);
+      var prevBtn = carousel.querySelector('.carousel-btn.prev');
+      var nextBtn = carousel.querySelector('.carousel-btn.next');
+      var dotsWrap = document.getElementById('photosCarouselDots');
+      var index = 0;
+      var dots = [];
+
+      // Per-image manual positioning: edit data-offset-x / data-offset-y on each <img>.
+      // Positive X moves right, negative X moves left.
+      // Positive Y moves down, negative Y moves up.
+      slides.forEach(function(slide) {
+        var img = slide.querySelector('img');
+        if (!img) {
+          return;
+        }
+
+        slide.classList.add('loading');
+
+        function markLoaded() {
+          slide.classList.remove('loading');
+        }
+
+        img.addEventListener('load', markLoaded);
+        img.addEventListener('error', markLoaded);
+
+        if (img.complete && img.naturalWidth > 0) {
+          markLoaded();
+        }
+
+        var offsetX = parseInt(img.dataset.offsetX || '0', 10);
+        var offsetY = parseInt(img.dataset.offsetY || '0', 10);
+        img.style.objectPosition = 'calc(50% + ' + offsetX + 'px) calc(50% + ' + offsetY + 'px)';
+      });
+
+      function goTo(newIndex) {
+        index = (newIndex + slides.length) % slides.length;
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      slides.forEach(function(_, i) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to photo ' + (i + 1));
+        dot.addEventListener('click', function() {
+          goTo(i);
+        });
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      });
+
+      prevBtn.addEventListener('click', function() {
+        goTo(index - 1);
+      });
+
+      nextBtn.addEventListener('click', function() {
+        goTo(index + 1);
+      });
+    })();
+  </script>
+</body>
+</html>

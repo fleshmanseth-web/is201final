@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Seth Elgin Music</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap Icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <style>
+            .img-loading-parent {
+                position: relative;
+            }
+
+            .img-loading-inline {
+                display: inline-block;
+            }
+
+            .img-loading-parent.img-loading-pending::after {
+                content: "loading...";
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.45);
+                color: #fff;
+                font-size: clamp(12px, 1.4vw, 18px);
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                text-transform: lowercase;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .img-loading-image {
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#page-top">Seth Elgin Music</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#this-months-song">This Month's Song</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#biography">Biography</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#resume">Resumé</a></li>
+                        <li class="nav-item"><a class="nav-link" href="trueScratch.html">Scratch Page</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 h-100">
+                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-8 align-self-end">
+                        <h1 class="text-white font-weight-bold">Seth Elgin</h1>
+                        <hr class="divider" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 mb-5">New music every month!</p>
+                        <a class="btn btn-primary btn-xl" href="#this-months-song">This month's song</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- This Month's Song-->
+        <section class="page-section bg-primary" id="this-months-song">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0">This month's song!</h2>
+                        <hr class="divider divider-light" />
+                    <iframe data-testid="embed-iframe" style="border-radius:12px"
+                        src="https://open.spotify.com/embed/track/6NqvEzL12c1YFx9ccTwYFH?utm_source=generator" width="100%" height="352"
+                        frameBorder="0" allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        <h2 class="text-white mt-4">Out everywhere!</h2>
+                        <div class="streaming-links-shell mt-4">
+                            <div class="streaming-links">
+                                <a href="https://www.deezer.com/track/3840301711" target="_blank" rel="noopener noreferrer">
+                                    <img class="logo-deezer" src="assets/New%20Folder%20with%20Items/Deezer-removebg-preview.png" alt="Listen on Deezer" />
+                                </a>
+                                <a href="https://music.amazon.com/tracks/B0GN3XFFTF" target="_blank" rel="noopener noreferrer">
+                                    <img class="logo-amazon" src="assets/New%20Folder%20with%20Items/Amazon-removebg-preview.png" alt="Listen on Amazon Music" />
+                                </a>
+                                <a href="https://music.youtube.com/watch?v=XPm6n73NnOA" target="_blank" rel="noopener noreferrer">
+                                    <img class="logo-youtube" src="assets/New%20Folder%20with%20Items/Youtube-removebg-preview.png?v=2" alt="Listen on YouTube" />
+                                </a>
+                                <a href="https://music.apple.com/us/album/aint-that-just-the-way/1876923267?i=1876923268" target="_blank" rel="noopener noreferrer">
+                                    <img src="assets/New%20Folder%20with%20Items/Apple-removebg-preview.png" alt="Listen on Apple Music" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Biography-->
+        <section class="page-section" id="biography">
+            <div class="container px-4 px-lg-5">
+                <h2 class="text-center mt-0">Biography</h2>
+                <hr class="divider" />
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-10 text-center">
+                        
+                        <p class="text-muted mb-4">After being rejected from music school twice, Seth Elgin took matters into his own hands, releasing "Running Out of Days" on March 1, 2026. While he began writing the song in high school, he shelved it for years unable to find quite the right words to finish it. Then, facing a bout of anxiety in the tail end of 2025 about his career, schooling, and life in general, he turned back to the song and prepared it for release. "Ain't That Just the Way" followed soon after as a love letter to the early 2000's punk-rock he grew up on. With other songs on the horizon, keep your eyes on Seth Elgin; his story is far from over.</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3">
+                            <a class="btn btn-outline-primary" href="https://instagram.com/seth_elgin?igsh=cTlib2xlc21jM2tn" target="_blank" rel="noopener noreferrer">Instagram</a>
+                            <a class="btn btn-outline-primary" href="https://facebook.com/profile.php?id=61587742283900" target="_blank" rel="noopener noreferrer">Facebook</a>
+                            <a class="btn btn-outline-primary" href="https://tiktok.com/@sethelgin" target="_blank" rel="noopener noreferrer">TikTok</a>
+                            <a class="btn btn-outline-primary" href="https://www.youtube.com/@SethElginMusic" target="_blank" rel="noopener noreferrer">YouTube</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact-->
+        <section class="page-section bg-dark text-white" id="contact">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6 text-center">
+                        <h2 class="mt-0">Let's Get In Touch!</h2>
+                        <hr class="divider" />
+                        <p class="text-white-75 mb-5">Collaboration project? Work for hire? Brand deal?<br><br>I would love to chat with you about any of it :)</p>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                    <div class="col-lg-6">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder" id="submitSuccessText">Form submission successful! I'll be in touch :)</div>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
+                        <i class="bi-phone fs-2 mb-3 text-white-75"></i>
+                        <div>+1 (555) 123-4567</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Resume-->
+        <section id="resume" style="max-width: 900px; margin: auto; padding: 40px; font-family: Arial, sans-serif; color: #222; line-height: 1.6;">
+            <details>
+                <summary class="resume-summary" style="cursor: pointer; list-style: none; margin-bottom: 16px;">
+                    <span style="display: block; font-size: 28px; font-weight: 700; color: #b22222;">Personal Resumé</span>
+                    <span class="resume-expand-hint" style="font-size: 13px; color: #666; margin-top: 2px;">(Click to expand)</span>
+                    <span class="resume-close-hint" style="font-size: 13px; color: #666; margin-top: 2px;">(Click to close)</span>
+                </summary>
+                <style>
+                    #resume .resume-summary::-webkit-details-marker {
+                        display: none;
+                    }
+
+                    #resume .resume-summary {
+                        position: relative;
+                        padding-left: 18px;
+                    }
+
+                    #resume .resume-summary::before {
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        top: 11px;
+                        width: 0;
+                        height: 0;
+                        border-top: 6px solid transparent;
+                        border-bottom: 6px solid transparent;
+                        border-left: 8px solid #b22222;
+                        transition: transform 0.2s ease;
+                    }
+
+                    #resume details[open] .resume-summary::before {
+                        transform: rotate(90deg);
+                    }
+
+                    #resume .resume-expand-hint {
+                        display: block;
+                    }
+
+                    #resume .resume-close-hint {
+                        display: none;
+                    }
+
+                    #resume details[open] .resume-expand-hint {
+                        display: none;
+                    }
+
+                    #resume details[open] .resume-close-hint {
+                        display: block;
+                    }
+                </style>
+                <div style="padding-top: 8px;">
+
+            <h1 style="font-size: 42px; margin-bottom: 5px;">Seth Elgin Fleshman</h1>
+            <p style="font-size: 18px; color: #555;">(986) 999-3473 | sethef@byu.edu | Provo, UT</p>
+
+            <hr style="margin: 30px 0;">
+
+            <h2 style="color: #b22222;">Experience</h2>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Audio Engineer</h3>
+                <p><strong>Brigham Young University Recording | Provo, UT | Sep 2025 - Present</strong></p>
+                <p>Operated technical audio equipment and software to record concerts, recitals, and other events hosted by BYU's School of Music.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Student Wellness Operations Manager</h3>
+                <p><strong>Brigham Young University Student Wellness | Provo, UT | Aug 2025 - Jan 2026</strong></p>
+                <p>Managed student wellness facilities on BYU campus such as fitness centers and tennis courts.</p>
+                <p>Educated patrons, enforced policies, monitored equipment condition and cleanliness, and created an uplifting student
+                experience.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Teacher's Assistant</h3>
+                <p><strong>Brigham Young University | Provo, UT | Apr 2025 - Aug 2025</strong></p>
+                <p>Graded student assignments, ensuring timely feedback and promoting a fair assessment process for all students.</p>
+                <p>Provided personal tutoring for students in need and responded to student questions and concerns.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Infield Mentor</h3>
+                <p><strong>Missionary Training Center | Provo, UT | Aug 2024 - Jan 2025</strong></p>
+                <p>Mentored new missionaries, fostering confidence and skill in applying <em>Preach My Gospel</em> principles through tailored
+                guidance in weekly one-on-one meetings.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Psychosocial Behavior Worker</h3>
+                <p><strong>Private Family | Eagle, ID | Jul 2024 - Aug 2024</strong></p>
+                <p>Cared for a deaf man with severe autism, helping foster opportunities for socialization and skill development in a variety of
+                community situations.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Audio Technician and Volunteer Coordinator</h3>
+                <p><strong>Legacy Academy | Nampa, ID | Oct 2023 - Jun 2024</strong></p>
+                <p>Configured and operated live audio equipment for their theatre department.</p>
+                <p>Managed and coordinated schedules of all volunteers for a K-12 school.</p>
+                <p>Educated students as a TA
+and substitute teacher.</p>
+                <p>Improved school environment as a custodial worker and general assistant.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Receptionist</h3>
+                <p><strong>Hands of Hope | Nampa, ID | Apr 2024 - Jul 2024</strong></p>
+                <p>Served customers electronically and in person, helping each find and reserve equipment.</p>
+                <p>Organized inventory and kept records.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Trauma Intervention Worker</h3>
+                <p><strong>Trauma Intervention Program | Nampa, ID | Jan 2024 - Jul 2024</strong></p>
+                <p>Provided emotional first-aid to survivors of traumatic events (family deaths, shootings, etc) on scene at 911
+calls.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Donation Processor</h3>
+                <p><strong>Deseret Industries | Nampa, ID | Oct 2023 - Jul 2024</strong></p>
+                <p>Processed and sorted donations, collaborating with individuals and volunteers suffering from a variety of physical and mental
+impairments.</p>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3>Maintanence Worker and Camp Assistant</h3>
+                <p><strong>Catherine Creek Christian Youth Camps | Union, OR | Oct 2023 - Jul 2024</strong></p>
+                <p>Maintained property during winter, and helped run youth camps during summer. Included landscaping, forest maintenance,
+woodcutting, custodial work, trail making, construction, event planning and execution, and so on.</p>
+            </div>
+
+            <hr style="margin: 30px 0;">
+
+            <h2 style="color: #b22222;">Education</h2>
+
+            <div style="margin-bottom: 20px;">
+                <h3>Brigham Young University | Provo, ID</h3>
+                <p><strong>Psychology | Jul 2028</strong></p>
+                <p>Currently completing courses in psychology as well as courses for a minor in entrepreneurship</p>
+                <p>Maintained a 3.96 GPA over the past 4 semesters</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3>Victory Charter School | Nampa, Idaho</h3>
+                <p><strong>High School Diploma | Jun 2024</strong></p>
+                <p>Recieved the "Student of The Year" award in College Play Production and College Sociology</p>
+                <p>Recieved the General "Student of The Year" award from all faculty and staff</p>
+                <p>Served as Class President from 2019 - 2020</p>
+            </div>
+
+            <hr style="margin: 30px 0;">
+
+            <h2 style="color: #b22222;">Skills</h2>
+            <p>Organizational Skills, Live Audio Experience, Communication Skills</p>
+
+                </div>
+            </details>
+
+        </section>
+        <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container px-4 px-lg-5"><div class="small text-center text-muted">All intellectual property rights reserved.</div></div>
+        </footer>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var images = document.querySelectorAll('img');
+
+                images.forEach(function(img) {
+                    var parent = img.parentElement;
+                    if (!parent) {
+                        return;
+                    }
+
+                    parent.classList.add('img-loading-parent');
+                    if (window.getComputedStyle(parent).display === 'inline') {
+                        parent.classList.add('img-loading-inline');
+                    }
+
+                    parent.classList.add('img-loading-pending');
+                    img.classList.add('img-loading-image');
+
+                    function clearLoadingState() {
+                        parent.classList.remove('img-loading-pending');
+                        img.classList.remove('img-loading-image');
+                    }
+
+                    if (img.complete) {
+                        clearLoadingState();
+                        return;
+                    }
+
+                    img.addEventListener('load', clearLoadingState, { once: true });
+                    img.addEventListener('error', clearLoadingState, { once: true });
+                });
+            });
+        </script>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- SimpleLightbox plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>

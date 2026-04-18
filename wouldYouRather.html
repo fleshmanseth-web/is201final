@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Would You Rather</title>
+  <link rel="stylesheet" href="trueScratch.css" />
+  <style>
+    .site-header .header-inner {
+      display: flex;
+      justify-content: center;
+    }
+
+    .site-header .main-nav {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .wyr-app {
+      background: #fff7fb;
+      border: 1px solid rgba(255, 107, 129, 0.28);
+      border-radius: 24px;
+      padding: clamp(18px, 3vw, 28px);
+      margin: 2rem 0;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.07);
+    }
+
+    .wyr-intro {
+      color: #4b3b47;
+      margin-bottom: 0.75rem;
+    }
+
+    .wyr-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .wyr-button {
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid #d9c9d2;
+      background: #fff;
+      color: #2d2d3a;
+      font-family: var(--font-1);
+      font-weight: 620;
+      padding: 0.7rem 1.1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .wyr-button:hover {
+      transform: translateY(-1px);
+      background: #ffdbe8;
+    }
+
+    #generateQuestionBtn:focus,
+    #generateQuestionBtn:focus-visible {
+      outline: none;
+      box-shadow: none;
+      border-color: #d9c9d2;
+    }
+
+    .wyr-question {
+      border-radius: 16px;
+      border: 1px solid #ead6de;
+      background: #fff;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .wyr-question h2 {
+      margin: 0;
+      font-size: clamp(22px, 3.2vw, 32px);
+      line-height: 1.25;
+    }
+
+    .wyr-question-title {
+      margin-bottom: 12px;
+    }
+
+    .wyr-question-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .wyr-question-option {
+      border-radius: 12px;
+      border: 1px solid #ebd7df;
+      background: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .wyr-option-token {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid #111;
+      font-family: var(--font-1);
+      font-weight: 620;
+      margin: 0 auto 8px;
+      user-select: none;
+    }
+
+    .wyr-option-token.option-a {
+      background: #111;
+      color: #fff;
+    }
+
+    .wyr-option-token.option-b {
+      background: #fff;
+      color: #111;
+    }
+
+    .wyr-option-text {
+      margin: 0;
+      line-height: 1.35;
+      color: #3f3241;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .wyr-player-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .wyr-player-card {
+      border-radius: 14px;
+      border: 1px solid #ebd7df;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .wyr-player-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.02rem;
+    }
+
+    .wyr-choice-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .wyr-choice {
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      border-radius: 12px;
+      font-family: var(--font-1);
+      font-weight: 620;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      cursor: pointer;
+      border: 1px solid #111;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .wyr-choice:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .wyr-choice.option-a {
+      background: #111;
+      color: #fff;
+      border: none;
+    }
+
+    .wyr-choice.option-b {
+      background: #fff;
+      color: #111;
+    }
+
+    .wyr-choice.is-selected {
+      box-shadow: 0 0 0 3px rgba(255, 107, 129, 0.3);
+    }
+
+    .wyr-player-status {
+      margin-top: 8px;
+      color: #5a4655;
+      font-size: 0.9rem;
+    }
+
+    .wyr-player-bars {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .wyr-bar-row {
+      display: grid;
+      grid-template-columns: 56px 1fr 44px;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #4f3d4a;
+    }
+
+    .wyr-bar-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #f1e7ec;
+      overflow: hidden;
+    }
+
+    .wyr-bar-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    .wyr-bar-fill.option-a {
+      background: #111;
+    }
+
+    .wyr-bar-fill.option-b {
+      background: #fff;
+    }
+
+    .wyr-bar-fill.option-b.is-visible {
+      border: 1px solid #333;
+      box-sizing: border-box;
+    }
+
+    .wyr-stats {
+      margin-top: 14px;
+      border-radius: 14px;
+      border: 1px solid #ebd7df;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .wyr-stats h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .wyr-stats p {
+      margin: 4px 0;
+    }
+
+    .wyr-feedback {
+      margin-top: 8px;
+      min-height: 1.35rem;
+      color: #6d5161;
+      font-size: 0.92rem;
+    }
+
+  </style>
+</head>
+<body tabindex="-1">
+  <div class="wrapper">
+    <header class="site-header">
+      <div class="header-inner">
+        <nav class="main-nav" aria-label="Primary">
+          <a href="trueScratch.html">Back to Main</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="wyr-app" aria-label="Couples Would You Rather">
+        <h1>Couples Would You Rather</h1>
+        <p class="wyr-intro">Generate a question, lock in his choice and her choice, and track how well you match up!</p>
+        <p class="wyr-intro">Controls: Click on the option of your choice, or press "A" for his Choice A, "D" for his choice B, Left arrow for her choice A, Right arrow for her choice B. Click "Generate Question" to skip, or press the Spacebar.</p>
+        <div class="wyr-controls">
+          <button id="generateQuestionBtn" class="wyr-button" type="button" autofocus>Generate Question</button>
+        </div>
+
+        <div class="wyr-question" id="questionCard">
+          <h2 class="wyr-question-title">Would you rather...</h2>
+          <div class="wyr-question-options">
+            <div class="wyr-question-option">
+              <span class="wyr-option-token option-a" aria-hidden="true">A</span>
+              <p id="optionAText" class="wyr-option-text">Press "Generate Question" to start</p>
+            </div>
+            <div class="wyr-question-option">
+              <span class="wyr-option-token option-b" aria-hidden="true">B</span>
+              <p id="optionBText" class="wyr-option-text">Or press the Spacebar</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="wyr-player-grid" id="playerArea" hidden>
+          <article class="wyr-player-card">
+            <h3>His Choice</h3>
+            <div class="wyr-choice-buttons">
+              <button class="wyr-choice option-a" type="button" data-player="his" data-option="a">A</button>
+              <button class="wyr-choice option-b" type="button" data-player="his" data-option="b">B</button>
+            </div>
+            <p id="hisStatus" class="wyr-player-status">Waiting for selection.</p>
+            <div class="wyr-player-bars" aria-label="His choice percentages">
+              <div class="wyr-bar-row">
+                <span>Option A</span>
+                <div class="wyr-bar-track"><div id="hisABar" class="wyr-bar-fill option-a"></div></div>
+                <span id="hisAPct">0%</span>
+              </div>
+              <div class="wyr-bar-row">
+                <span>Option B</span>
+                <div class="wyr-bar-track"><div id="hisBBar" class="wyr-bar-fill option-b"></div></div>
+                <span id="hisBPct">0%</span>
+              </div>
+            </div>
+          </article>
+          <article class="wyr-player-card">
+            <h3>Her Choice</h3>
+            <div class="wyr-choice-buttons">
+              <button class="wyr-choice option-a" type="button" data-player="her" data-option="a">A</button>
+              <button class="wyr-choice option-b" type="button" data-player="her" data-option="b">B</button>
+            </div>
+            <p id="herStatus" class="wyr-player-status">Waiting for selection.</p>
+            <div class="wyr-player-bars" aria-label="Her choice percentages">
+              <div class="wyr-bar-row">
+                <span>Option A</span>
+                <div class="wyr-bar-track"><div id="herABar" class="wyr-bar-fill option-a"></div></div>
+                <span id="herAPct">0%</span>
+              </div>
+              <div class="wyr-bar-row">
+                <span>Option B</span>
+                <div class="wyr-bar-track"><div id="herBBar" class="wyr-bar-fill option-b"></div></div>
+                <span id="herBPct">0%</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="wyr-feedback" id="feedback" role="status" aria-live="polite"></div>
+
+        <section class="wyr-stats" aria-labelledby="statsTitle">
+          <h3 id="statsTitle">Couple Results</h3>
+          <p>Total completed rounds: <strong id="roundCount">0</strong></p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      { a: "start every day with a sunrise walk together", b: "end every day with a sunset walk together" },
+      { a: "cook dinner together every Friday", b: "try a new restaurant every Friday" },
+      { a: "have a beach weekend once a month", b: "have a mountain weekend once a month" },
+      { a: "exchange handwritten notes weekly", b: "record voice notes weekly" },
+      { a: "watch movies at home every date night", b: "play board games every date night" },
+      { a: "take dance lessons together", b: "take cooking lessons together" },
+      { a: "plan every date together", b: "surprise each other with dates" },
+      { a: "travel somewhere new every year", b: "return to the same favorite place every year" },
+      { a: "have matching outfits once a week", b: "have matching playlists once a week" },
+      { a: "spend a whole day offline together", b: "spend a whole day trying new apps together" },
+      { a: "go camping together", b: "stay in a luxury hotel together" },
+      { a: "adopt a dog together", b: "adopt a cat together" },
+      { a: "host game nights for friends", b: "host dinner nights for friends" },
+      { a: "have coffee dates in the morning", b: "have dessert dates at night" },
+      { a: "read the same book each month", b: "watch the same series each month" },
+      { a: "take spontaneous road trips", b: "plan detailed weekend trips" },
+      { a: "work out together", b: "meditate together" },
+      { a: "decorate your home seasonally", b: "keep a clean minimal style year-round" },
+      { a: "take photos everywhere you go", b: "collect small souvenirs everywhere you go" },
+      { a: "have breakfast in bed on weekends", b: "have late-night snacks on weekends" },
+      { a: "learn a new language together", b: "learn a new instrument together" },
+      { a: "spend holidays with family", b: "spend holidays traveling together" },
+      { a: "have a joint journal", b: "have a joint vision board" },
+      { a: "attend concerts together", b: "attend comedy shows together" },
+      { a: "always split chores evenly", b: "trade chores based on preference" },
+      { a: "live in a city apartment", b: "live in a quiet suburban home" },
+      { a: "take weekly long walks", b: "take weekly long drives" },
+      { a: "write bucket lists together", b: "pick goals month by month" },
+      { a: "plan meals every Sunday", b: "decide meals day by day" },
+      { a: "have one long vacation yearly", b: "have several short trips yearly" },
+      { a: "collect vinyl records together", b: "collect books together" },
+      { a: "do puzzles on rainy days", b: "do baking on rainy days" },
+      { a: "keep your wedding simple", b: "make your wedding extravagant" },
+      { a: "spend free time outdoors", b: "spend free time indoors" },
+      { a: "send each other memes daily", b: "send each other songs daily" },
+      { a: "go to bed early together", b: "stay up late together" },
+      { a: "take yearly couple portraits", b: "take yearly travel videos" },
+      { a: "live close to family", b: "live far away and visit often" },
+      { a: "plan finances in detail monthly", b: "review finances casually weekly" },
+      { a: "have date nights at home", b: "have date nights out" },
+      { a: "choose gifts with a strict budget", b: "choose gifts with no budget" },
+      { a: "take classes together", b: "teach each other new skills" },
+      { a: "have a minimalist wedding registry", b: "have a big practical registry" },
+      { a: "build furniture together", b: "paint rooms together" },
+      { a: "keep a shared family calendar", b: "plan week by week" },
+      { a: "have one phone-free dinner every day", b: "have one phone-free day each week" },
+      { a: "attend a sports game together", b: "attend a theater show together" },
+      { a: "watch the sunrise on vacation", b: "watch the stars on vacation" },
+      { a: "save for experiences first", b: "save for home upgrades first" },
+      { a: "give practical gifts", b: "give sentimental gifts" },
+      { a: "live near the ocean", b: "live near the mountains" },
+      { a: "cook from recipes exactly", b: "cook by improvising" },
+      { a: "plan every holiday months ahead", b: "book holidays last minute" },
+      { a: "have matching mugs", b: "have matching blankets" },
+      { a: "go to farmers markets weekly", b: "go to flea markets weekly" },
+      { a: "have a pet name for each other", b: "use full names affectionately" },
+      { a: "exercise outdoors", b: "exercise at home" },
+      { a: "host friends often", b: "keep home life mostly private" },
+      { a: "keep a monthly photo book", b: "keep a monthly memory jar" },
+      { a: "try new hobbies every month", b: "master one hobby together" },
+      { a: "share one bank account", b: "keep separate accounts plus one joint account" },
+      { a: "watch documentaries together", b: "watch reality shows together" },
+      { a: "take a midday coffee break together", b: "take an evening tea break together" },
+      { a: "do couple costumes every year", b: "dress up separately every year" },
+      { a: "spend Sundays deep cleaning", b: "spend Sundays relaxing" },
+      { a: "have matching phone wallpapers", b: "have matching lock-screen quotes" },
+      { a: "plan for retirement early", b: "focus on enjoying the present" },
+      { a: "take pictures before eating", b: "eat first and take pictures later" },
+      { a: "practice a shared faith routine daily", b: "practice a shared gratitude routine daily" },
+      { a: "do DIY home projects", b: "hire professionals for home projects" },
+      { a: "move every few years", b: "stay rooted in one place" },
+      { a: "celebrate every monthly anniversary", b: "celebrate major milestones only" },
+      { a: "wake up at the same time daily", b: "keep different sleep schedules" },
+      { a: "book aisle and window seats", b: "book seats together in the middle" },
+      { a: "splurge on food while traveling", b: "splurge on activities while traveling" },
+      { a: "watch one movie repeatedly", b: "always watch something new" },
+      { a: "have one shared social account", b: "keep social media fully separate" },
+      { a: "decorate for every holiday", b: "decorate only for favorite holidays" },
+      { a: "have breakfast dates", b: "have dinner dates" },
+      { a: "save every card and note", b: "keep only a few favorites" },
+      { a: "go for long bike rides", b: "go for long walks" },
+      { a: "live with an open floor plan", b: "live with cozy separate rooms" },
+      { a: "watch your wedding video yearly", b: "look through wedding photos yearly" },
+      { a: "share one hobby deeply", b: "have different hobbies and teach each other" },
+      { a: "plan your week every Sunday night", b: "plan each day every morning" },
+      { a: "exchange compliments daily", b: "exchange appreciations weekly" },
+      { a: "take naps together", b: "take evening walks together" },
+      { a: "live near busy nightlife", b: "live near quiet nature" },
+      { a: "go thrift shopping together", b: "go boutique shopping together" },
+      { a: "keep a strict budget", b: "keep a flexible budget" },
+      { a: "celebrate with big parties", b: "celebrate with intimate gatherings" },
+      { a: "journal about your goals", b: "record voice notes about your goals" },
+      { a: "visit museums together", b: "visit amusement parks together" },
+      { a: "sleep with the fan on", b: "sleep with complete silence" },
+      { a: "plan date themes ahead", b: "pick date themes on the spot" },
+      { a: "go to the gym together", b: "do home workouts together" },
+      { a: "cook one large meal and meal-prep", b: "cook fresh every day" },
+      { a: "save for a dream home first", b: "save for world travel first" },
+      { a: "watch sports together", b: "watch cooking shows together" },
+      { a: "do sunrise hikes", b: "do late-night drives" },
+      { a: "have a strict cleaning schedule", b: "clean as needed" },
+      { a: "send each other funny reels", b: "send each other thoughtful messages" },
+      { a: "start Saturdays with a bookstore date", b: "start Saturdays with a farmers market date" },
+      { a: "plan a monthly picnic", b: "plan a monthly museum day" },
+      { a: "take a pottery class together", b: "take a photography class together" },
+      { a: "write a shared bucket list for each season", b: "write a shared bucket list for each year" },
+      { a: "watch the same morning show daily", b: "listen to the same morning podcast daily" },
+      { a: "host brunch for friends", b: "host movie night for friends" },
+      { a: "save for a cabin getaway", b: "save for a beach getaway" },
+      { a: "do a no-phone evening every week", b: "do a no-social-media weekend every month" },
+      { a: "cook recipes from one country for a month", b: "cook one new global recipe each week" },
+      { a: "trade love letters on anniversaries", b: "trade video messages on anniversaries" },
+      { a: "bike to local cafes", b: "walk to local parks" },
+      { a: "have a matching morning routine", b: "have a matching evening routine" },
+      { a: "spend date night doing art projects", b: "spend date night doing puzzle challenges" },
+      { a: "watch classic films together", b: "watch new releases together" },
+      { a: "volunteer together monthly", b: "fundraise together quarterly" },
+      { a: "keep plants in every room", b: "keep fresh flowers in every room" },
+      { a: "train for a 5k together", b: "train for a hiking trip together" },
+      { a: "do random acts of kindness weekly", b: "do community service monthly" },
+      { a: "take day trips by train", b: "take day trips by car" },
+      { a: "set shared reading goals", b: "set shared fitness goals" },
+      { a: "celebrate birthdays with big plans", b: "celebrate birthdays with quiet nights" },
+      { a: "collect postcards from each trip", b: "collect magnets from each trip" },
+      { a: "do sunrise yoga together", b: "do evening stretching together" },
+      { a: "plan your outfits the night before", b: "pick outfits in the morning" },
+      { a: "go to local festivals", b: "go to local farmers markets" },
+      { a: "do a weekly date jar draw", b: "do a weekly spin-the-wheel date" },
+      { a: "share one streaming profile", b: "keep separate streaming profiles" },
+      { a: "plan holidays with spreadsheets", b: "plan holidays with spontaneous lists" },
+      { a: "have a dedicated game room", b: "have a dedicated reading nook" },
+      { a: "do monthly home resets", b: "do quarterly home overhauls" },
+      { a: "take cooking turns every day", b: "batch cook together twice a week" },
+      { a: "watch sunsets from rooftops", b: "watch sunrises from trails" },
+      { a: "keep one shared to-do board", b: "keep synced digital calendars" },
+      { a: "send a good-morning text daily", b: "send a good-night text daily" },
+      { a: "plan an annual road trip", b: "plan an annual international trip" },
+      { a: "decorate in warm earth tones", b: "decorate in bright bold colors" },
+      { a: "eat at the same favorite spot often", b: "try a new spot every week" },
+      { a: "do karaoke nights together", b: "do trivia nights together" },
+      { a: "practice dance routines at home", b: "practice cooking challenges at home" },
+      { a: "start a shared recipe binder", b: "start a shared travel binder" },
+      { a: "have matching keychains", b: "have matching phone cases" },
+      { a: "pick one monthly savings goal", b: "pick one monthly adventure goal" },
+      { a: "wake up to music", b: "wake up to silence" },
+      { a: "spend snow days indoors cozy", b: "spend snow days outside active" },
+      { a: "keep a strict bedtime", b: "keep a flexible bedtime" },
+      { a: "watch documentaries before bed", b: "read before bed" },
+      { a: "go antique shopping", b: "go modern decor shopping" },
+      { a: "plan a surprise date every month", b: "plan a surprise gift every month" },
+      { a: "create a couple playlist every season", b: "create a couple photo album every season" },
+      { a: "try one new coffee shop weekly", b: "try one new dessert shop weekly" },
+      { a: "cook breakfast together daily", b: "cook dinner together daily" },
+      { a: "do digital detox Sundays", b: "do screen-free evenings" },
+      { a: "keep your living room minimal", b: "keep your living room eclectic" },
+      { a: "spend anniversaries at home", b: "spend anniversaries traveling" },
+      { a: "go paddleboarding together", b: "go roller skating together" },
+      { a: "plan your month in detail", b: "plan your week in detail" },
+      { a: "host themed dinner nights", b: "host themed game nights" },
+      { a: "start mornings with journaling", b: "start mornings with stretching" },
+      { a: "have a dedicated hobby night", b: "have a dedicated self-care night" },
+      { a: "take scenic routes everywhere", b: "take fastest routes everywhere" },
+      { a: "save all travel receipts", b: "save only travel photos" },
+      { a: "choose comfort over style daily", b: "choose style over comfort daily" },
+      { a: "watch live sports in person", b: "watch live theater in person" },
+      { a: "plan one big home project yearly", b: "plan several small home projects yearly" },
+      { a: "go on midnight snack runs", b: "go on early breakfast runs" },
+      { a: "read aloud to each other", b: "listen to audiobooks together" },
+      { a: "travel with only carry-ons", b: "travel with checked bags" },
+      { a: "plan outfits for trips", b: "pack as you go for trips" },
+      { a: "keep a wall calendar", b: "keep a digital shared calendar" },
+      { a: "buy practical home gifts", b: "buy decorative home gifts" },
+      { a: "eat dinner at the table nightly", b: "eat dinner picnic-style nightly" },
+      { a: "spend free evenings reading", b: "spend free evenings gaming" },
+      { a: "do couples quizzes for fun", b: "do couples challenges for fun" },
+      { a: "watch city lights at night", b: "watch stars in quiet places" },
+      { a: "collect ticket stubs", b: "collect travel maps" },
+      { a: "keep workout goals private", b: "keep workout goals shared" },
+      { a: "book trips six months ahead", b: "book trips two weeks ahead" },
+      { a: "go all out for halloween", b: "go all out for new year" },
+      { a: "plan first and execute later", b: "start and adjust as you go" },
+      { a: "do weekday meal prep", b: "cook fresh each weekday" },
+      { a: "set one large annual goal", b: "set monthly mini goals" },
+      { a: "choose handwritten thank-you notes", b: "choose digital thank-you messages" },
+      { a: "go bowling together", b: "go mini golfing together" },
+      { a: "keep your home music on all day", b: "keep your home mostly quiet" },
+      { a: "celebrate friday nights out", b: "celebrate friday nights in" },
+      { a: "do puzzle races", b: "do cooking races" },
+      { a: "watch one long series together", b: "watch many short series together" },
+      { a: "save for tech upgrades", b: "save for travel upgrades" },
+      { a: "spend mornings planning", b: "spend mornings creating" },
+      { a: "take dance breaks during workdays", b: "take walk breaks during workdays" },
+      { a: "go hiking for date day", b: "go city exploring for date day" },
+      { a: "create one shared journal", b: "create two private journals" },
+      { a: "plan your retirement location early", b: "decide your retirement location later" },
+      { a: "keep a strict grocery list", b: "shop by inspiration" },
+      { a: "have matching travel backpacks", b: "have matching travel accessories" },
+      { a: "watch movie marathons monthly", b: "watch episode marathons monthly" },
+      { a: "celebrate wins with fancy dinners", b: "celebrate wins with weekend trips" },
+      { a: "share your daily highlights at dinner", b: "share your daily highlights before bed" },
+      { a: "do cold-weather vacations", b: "do warm-weather vacations" },
+      { a: "take stairs whenever possible", b: "take elevators whenever possible" },
+      { a: "play card games after dinner", b: "do evening walks after dinner" },
+      { a: "make yearly vision boards", b: "make yearly goal checklists" },
+      { a: "plan double dates often", b: "plan one-on-one dates often" },
+      { a: "keep a chore chart", b: "assign chores by mood" }
+    ];
+
+    const optionATextEl = document.getElementById("optionAText");
+    const optionBTextEl = document.getElementById("optionBText");
+    const playerAreaEl = document.getElementById("playerArea");
+    const feedbackEl = document.getElementById("feedback");
+    const hisStatusEl = document.getElementById("hisStatus");
+    const herStatusEl = document.getElementById("herStatus");
+    const roundCountEl = document.getElementById("roundCount");
+    const hisABarEl = document.getElementById("hisABar");
+    const hisBBarEl = document.getElementById("hisBBar");
+    const herABarEl = document.getElementById("herABar");
+    const herBBarEl = document.getElementById("herBBar");
+    const hisAPctEl = document.getElementById("hisAPct");
+    const hisBPctEl = document.getElementById("hisBPct");
+    const herAPctEl = document.getElementById("herAPct");
+    const herBPctEl = document.getElementById("herBPct");
+
+    const state = {
+      currentQuestion: null,
+      remainingIndexes: [],
+      selections: { his: null, her: null },
+      roundLocked: false,
+      stats: {
+        rounds: 0,
+        his: { a: 0, b: 0 },
+        her: { a: 0, b: 0 }
+      }
+    };
+
+    function refillQuestionBag() {
+      state.remainingIndexes = Array.from({ length: QUESTIONS.length }, function(_, index) {
+        return index;
+      });
+    }
+
+    function randomQuestionIndex() {
+      if (!state.remainingIndexes.length) {
+        return null;
+      }
+      const pick = Math.floor(Math.random() * state.remainingIndexes.length);
+      const questionIndex = state.remainingIndexes[pick];
+      state.remainingIndexes.splice(pick, 1);
+      return questionIndex;
+    }
+
+    function setFeedback(message) {
+      feedbackEl.textContent = message || "";
+    }
+
+    function updateStatsDisplay() {
+      const hisTotal = state.stats.his.a + state.stats.his.b;
+      const herTotal = state.stats.her.a + state.stats.her.b;
+      const hisAPct = hisTotal ? ((state.stats.his.a / hisTotal) * 100).toFixed(1) : "0.0";
+      const hisBPct = hisTotal ? ((state.stats.his.b / hisTotal) * 100).toFixed(1) : "0.0";
+      const herAPct = herTotal ? ((state.stats.her.a / herTotal) * 100).toFixed(1) : "0.0";
+      const herBPct = herTotal ? ((state.stats.her.b / herTotal) * 100).toFixed(1) : "0.0";
+
+      roundCountEl.textContent = String(state.stats.rounds);
+      hisABarEl.style.width = `${hisAPct}%`;
+      hisBBarEl.style.width = `${hisBPct}%`;
+      herABarEl.style.width = `${herAPct}%`;
+      herBBarEl.style.width = `${herBPct}%`;
+      hisBBarEl.classList.toggle("is-visible", Number(hisBPct) > 0);
+      herBBarEl.classList.toggle("is-visible", Number(herBPct) > 0);
+      hisAPctEl.textContent = `${hisAPct}%`;
+      hisBPctEl.textContent = `${hisBPct}%`;
+      herAPctEl.textContent = `${herAPct}%`;
+      herBPctEl.textContent = `${herBPct}%`;
+    }
+
+    function updatePlayerStatus() {
+      hisStatusEl.textContent = state.selections.his ? `Selected Option ${state.selections.his.toUpperCase()}.` : "Waiting for selection.";
+      herStatusEl.textContent = state.selections.her ? `Selected Option ${state.selections.her.toUpperCase()}.` : "Waiting for selection.";
+    }
+
+    function updateSelectedButtons() {
+      const buttons = Array.from(document.querySelectorAll(".wyr-choice"));
+      buttons.forEach(function(button) {
+        const player = button.dataset.player;
+        const option = button.dataset.option;
+        const selected = state.selections[player] === option;
+        button.classList.toggle("is-selected", selected);
+        button.disabled = Boolean(state.selections[player]);
+      });
+    }
+
+    function evaluateRound() {
+      if (state.roundLocked) {
+        return;
+      }
+      if (!state.selections.his || !state.selections.her) {
+        return;
+      }
+
+      state.stats.his[state.selections.his] += 1;
+      state.stats.her[state.selections.her] += 1;
+      state.stats.rounds += 1;
+      updateStatsDisplay();
+      state.roundLocked = true;
+      setFeedback("Choices recorded. Loading next question...");
+      window.setTimeout(loadQuestion, 450);
+    }
+
+    function loadQuestion() {
+      const idx = randomQuestionIndex();
+      if (idx === null) {
+        state.currentQuestion = null;
+        state.selections = { his: null, her: null };
+        state.roundLocked = true;
+        updatePlayerStatus();
+        updateSelectedButtons();
+        setFeedback("You have reached the end of this session. Refresh the page to play again.");
+        return;
+      }
+      const question = QUESTIONS[idx];
+      state.currentQuestion = question;
+      state.selections = { his: null, her: null };
+      state.roundLocked = false;
+
+      optionATextEl.textContent = question.a.charAt(0).toUpperCase() + question.a.slice(1);
+      optionBTextEl.textContent = question.b.charAt(0).toUpperCase() + question.b.slice(1);
+      playerAreaEl.hidden = false;
+      updatePlayerStatus();
+      updateSelectedButtons();
+      setFeedback("Select one option for each player.");
+    }
+
+    function selectChoice(player, option) {
+      if (!state.currentQuestion) {
+        return;
+      }
+
+      if (state.selections[player]) {
+        setFeedback(`${player === "his" ? "His" : "Her"} choice is already locked for this question.`);
+        return;
+      }
+
+      state.selections[player] = option;
+      updatePlayerStatus();
+      updateSelectedButtons();
+
+      if (!state.selections.his || !state.selections.her) {
+        setFeedback("One choice saved. Waiting for the other partner.");
+      }
+
+      evaluateRound();
+    }
+
+    function handleChoiceClick(event) {
+      const button = event.target.closest(".wyr-choice");
+      if (!button) {
+        return;
+      }
+
+      selectChoice(button.dataset.player, button.dataset.option);
+    }
+
+    function handleKeyboardChoice(event) {
+      if (event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+
+      let player = null;
+      let option = null;
+      const key = event.key;
+
+      if (key === " " || key === "Spacebar" || key === "Space" || event.code === "Space") {
+        event.preventDefault();
+        loadQuestion();
+        return;
+      }
+
+      if (key === "a" || key === "A") {
+        player = "his";
+        option = "a";
+      } else if (key === "d" || key === "D") {
+        player = "his";
+        option = "b";
+      } else if (key === "ArrowLeft") {
+        player = "her";
+        option = "a";
+      } else if (key === "ArrowRight") {
+        player = "her";
+        option = "b";
+      }
+
+      if (!player || !option) {
+        return;
+      }
+
+      event.preventDefault();
+      selectChoice(player, option);
+    }
+
+    const generateQuestionBtn = document.getElementById("generateQuestionBtn");
+
+    function focusGameForKeyboard() {
+      window.requestAnimationFrame(function() {
+        if (document.visibilityState !== "visible") {
+          return;
+        }
+        document.body.focus({ preventScroll: true });
+        generateQuestionBtn.focus({ preventScroll: true });
+      });
+    }
+
+    generateQuestionBtn.addEventListener("click", loadQuestion);
+    document.getElementById("playerArea").addEventListener("click", handleChoiceClick);
+    document.addEventListener("keydown", handleKeyboardChoice);
+    window.addEventListener("focus", focusGameForKeyboard);
+    document.addEventListener("visibilitychange", focusGameForKeyboard);
+    window.addEventListener("load", focusGameForKeyboard);
+
+    // Keep keyboard-first flow reliable when the page first opens.
+    focusGameForKeyboard();
+
+    refillQuestionBag();
+    updateStatsDisplay();
+  </script>
+</body>
+</html>
